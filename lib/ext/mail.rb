@@ -24,7 +24,7 @@ class Mail::Message
     # returns foo.jpg #content_type is 'image/jpeg;Name=foo.jpg'
 
     def filename
-      if self.content_type && names = Hash[self.content_type.split(';').map{|t| t.strip.split('=')}]
+      if self.content_type && names = Hash[self.content_type.split(';').map{|t| t.strip.split('=')}.reject{|t| t.length > 2}]
         if name = names.detect{|key,val| key.downcase == 'filename'} || names.detect{|key,val| key.downcase == 'name'}
           return (name.last.match(/^"?(.+?)"?$/))[1]
         end
